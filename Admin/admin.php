@@ -113,6 +113,7 @@ function admin_validated_page(string $raw): string
         'heatmap',
         'goldShop',
         'questEditor',
+        'zarinpal',
     ];
 
     return in_array($raw, $whitelist, true) ? $raw : '';
@@ -209,6 +210,10 @@ if ($page !== '') {
 
         case 'questEditor':
             $subpage = ADMIN_QUEST_EDITOR;
+            break;
+
+        case 'zarinpal':
+            $subpage = defined('ADMIN_ZARINPAL_TRANSACTIONS') ? ADMIN_ZARINPAL_TRANSACTIONS : 'Zarinpal Transactions';
             break;
 
         case 'massmessage':
@@ -874,6 +879,7 @@ body.app #menu li.sub ul li a:hover{color:#d97706!important}
                                 <li><a href="?p=gold"><?php echo ADMIN_GIVE_ALL_FREE_GOLD; ?></a></li>
                                 <li><a href="?p=usergold"><?php echo ADMIN_GIVE_FREE_GOLD_TO_SPECIFIC_USER; ?></a></li>
                                 <li><a href="?p=goldShop"><?php echo ADMIN_GOLD_SHOP_PROMO_CODES; ?></a></li>
+                                <li><a href="?p=zarinpal"><font color="#facc15"><b>💰 <?php echo defined('ADMIN_ZARINPAL_TRANSACTIONS') ? ADMIN_ZARINPAL_TRANSACTIONS : 'Zarinpal Transactions'; ?></b></font></a></li>
                                 <li><a href="?p=maintenenceResetGold"><?php echo ADMIN_RESET_GOLD; ?></a></li>
                             </ul>
                         </li>

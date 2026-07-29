@@ -71,6 +71,11 @@ include_once("Message.php");
 include_once("Alliance.php");
 include_once("Profile.php");
 
+// CSRF Protection for game forms (global, loaded after session starts)
+if (file_exists(__DIR__ . '/../Security/CSRF.php')) {
+    include_once(__DIR__ . '/../Security/CSRF.php');
+}
+
 class Session {
 
     private $time;

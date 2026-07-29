@@ -60,6 +60,44 @@ $id = $_GET['id'];
 } else {
 $id = "";
 }
+
+// --- ZARINPAL PAYMENT INITIATION ---
+// Packages: id => [gold, price_in_rials, label]
+$zp_packages = [
+    110  => [  'gold' => PLUS_PACKAGE_A_GOLD, 'rial' => defined('ZP_PACKAGE_A_RIAL') ? ZP_PACKAGE_A_RIAL : 199000,  'label' => 'Package A' ],
+    111  => [  'gold' => PLUS_PACKAGE_B_GOLD, 'rial' => defined('ZP_PACKAGE_B_RIAL') ? ZP_PACKAGE_B_RIAL : 499000,  'label' => 'Package B' ],
+    112  => [  'gold' => PLUS_PACKAGE_C_GOLD, 'rial' => defined('ZP_PACKAGE_C_RIAL') ? ZP_PACKAGE_C_RIAL : 999000,  'label' => 'Package C' ],
+    113  => [  'gold' => PLUS_PACKAGE_D_GOLD, 'rial' => defined('ZP_PACKAGE_D_RIAL') ? ZP_PACKAGE_D_RIAL : 1999000, 'label' => 'Package D' ],
+    3110 => [ 'gold' => PLUS_PACKAGE_E_GOLD, 'rial' => defined('ZP_PACKAGE_E_RIAL') ? ZP_PACKAGE_E_RIAL : 4999000, 'label' => 'Package E' ],
+];
+
+if (isset($_GET['zp']) && isset($zp_packages[$id])) {
+    $pkg  = $zp_packages[$id];
+    $uid  = (int)($session->uid ?? 0);
+    $user = $uid > 0 ? $database->getUserArray($uid, 1) : null;
+    $desc = SERVER_NAME . ' - ' . $pkg['label'] . ' (' . $pkg['gold'] . ' Gold)';
+    $cb   = rtrim(HOMEPAGE, '/') . '/zarinpal_callback.php';
+
+    require_once __DIR__ . '/GameEngine/Zarinpal.php';
+    $zp = new Zarinpal();
+    $req = $zp->request($pkg['rial'], $desc, $cb, [
+        'mobile'   => $user['email'] ?? '',
+        'order_id' => $uid . '-' . $id . '-' . time(),
+    ]);
+
+    if ($req['success']) {
+        $_SESSION['zp_tx_' . $req['authority']] = [
+            'uid'     => $uid,
+            'amount'  => $pkg['rial'],
+            'gold'    => $pkg['gold'],
+            'package' => $pkg['label'],
+        ];
+        header('Location: ' . $req['url']);
+        exit;
+    }
+    // Fall through to show error
+    $zp_error = $zp->getLastError();
+}
 if ($id == 110) {
 include("Templates/Plus/110.tpl");
 }

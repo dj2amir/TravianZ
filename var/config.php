@@ -18,8 +18,8 @@
 //////////////////////////////////
 // (E_ALL ^ E_NOTICE) = enabled
 // (0) = disabled
-define("ERROR_REPORT","%ERRORREPORT%");
-%ERROR%
+define("ERROR_REPORT","E_ALL ^ E_NOTICE ^ E_DEPRECATED");
+error_reporting (E_ALL ^ E_NOTICE ^ E_DEPRECATED);
 define('AUTOMATION_LOCK_FILE_NAME', 'automation.lck');
 
 //////////////////////////////////
@@ -39,13 +39,13 @@ define('AUTOMATION_LOCK_FILE_NAME', 'automation.lck');
 //
 // CRON_TICK_SECONDS = the interval, in seconds, between each tick within a
 // single cron.php invocation.
-define('CRON_LOOP_SECONDS', %CRONLOOP%);
-define('CRON_TICK_SECONDS', %CRONTICK%);
+define('CRON_LOOP_SECONDS', 0);
+define('CRON_TICK_SECONDS', 60);
 
 // Key used to access cron.php via HTTP (wget/curl or an external cron service).
 // Command-line execution (e.g. a cPanel cron job) does NOT require it.
 // Automatically generated during installation and preserved when saving configuration settings from the ACP.
-define('CRON_KEY', '%CRONKEY%');
+define('CRON_KEY', 'testcron123');
 
 //////////////////////////////////
 // *****  DATABASE CLEANUP  *****//
@@ -55,9 +55,9 @@ define('CRON_KEY', '%CRONKEY%');
 // up periodically by Automation. Set each rule to 0 to disable it individually.
 //
 // Reports archived by players are never deleted.
-define('CLEANUP_REPORTS_DAYS', %CLEANUPREPORTS%);
-define('CLEANUP_CHAT_DAYS', %CLEANUPCHAT%);
-define('CLEANUP_MESSAGES_DAYS', %CLEANUPMESSAGES%);
+define('CLEANUP_REPORTS_DAYS', 0);
+define('CLEANUP_CHAT_DAYS', 0);
+define('CLEANUP_MESSAGES_DAYS', 0);
 define('CLEANUP_INTERVAL', 3600);
 define('CLEANUP_BATCH', 5000);
 
@@ -72,7 +72,7 @@ define('CLEANUP_BATCH', 5000);
 //
 // It scales with the server speed, just like regeneration from attributes.
 // Set to 0 to disable it (legacy behavior).
-define('HERO_BASE_REGEN', %HEROBASEREGEN%);
+define('HERO_BASE_REGEN', 5);
 
 // Auction House exchange rates:
 //
@@ -81,8 +81,8 @@ define('HERO_BASE_REGEN', %HEROBASEREGEN%);
 //
 // The difference between the two rates is the Auction House margin
 // (just like in Travian: 1 gold → 10 silver, but 25 silver → 1 gold).
-define('HERO_SILVER_PER_GOLD', %HEROSILVERPERGOLD%);
-define('HERO_SILVER_TO_GOLD', %HEROSILVERTOGOLD%);
+define('HERO_SILVER_PER_GOLD', 10);
+define('HERO_SILVER_TO_GOLD', 25);
 
 // Hero "Resources" attribute (T4): how many resources each attribute point
 // produces per hour.
@@ -92,28 +92,28 @@ define('HERO_SILVER_TO_GOLD', %HEROSILVERTOGOLD%);
 //
 //   ONE = when the bonus is concentrated on a single resource
 //         (default: 10)
-define('HERO_RES_PER_POINT_ALL', %HERORESALL%);
-define('HERO_RES_PER_POINT_ONE', %HERORESONE%);
+define('HERO_RES_PER_POINT_ALL', 3);
+define('HERO_RES_PER_POINT_ONE', 10);
 
 //////////////////////////////////
 // *****  SERVER SETTINGS  *****//
 //////////////////////////////////
 
 // ***** Name
-define("SERVER_NAME","%SERVERNAME%");
+define("SERVER_NAME","ZarinpalTest");
 
 // ***** Time zone added by ronix
 // Defines server time zone.
-define("TIMEZONE","%STIMEZONE%");
+define("TIMEZONE","Asia/Tehran");
 date_default_timezone_set(TIMEZONE);
 
 // ***** Started
 // Defines when has server started.
-define("COMMENCE","%STARTTIME%");
+define("COMMENCE","1785221727");
 
 // ***** Server Start Date / Time
-define("START_DATE", "%SSTARTDATE%");
-define("START_TIME", "%SSTARTTIME%");
+define("START_DATE", "29/07/2026");
+define("START_TIME", "06:55");
 
 // ***** Language
 // SERVER_LANG is the DEFAULT language of the server (chosen at install / in
@@ -128,7 +128,7 @@ define("START_TIME", "%SSTARTTIME%");
 // strictly sanitized to [a-z_] (no path traversal) and the target file MUST
 // exist, otherwise we fall back to the server default. This prevents Local
 // File Inclusion via a crafted session value.
-define("SERVER_LANG", "%LANG%");
+define("SERVER_LANG", "fa");
 if (session_status() !== PHP_SESSION_ACTIVE) { @session_start(); }
 $__user_lang = isset($_SESSION['lang']) ? preg_replace('/[^a-z_]/', '', strtolower((string) $_SESSION['lang'])) : '';
 define("LANG", ($__user_lang !== '' && is_file(__DIR__ . "/Lang/" . $__user_lang . ".php")) ? $__user_lang : SERVER_LANG);
@@ -137,17 +137,17 @@ define("LANG", ($__user_lang !== '' && is_file(__DIR__ . "/Lang/" . $__user_lang
 // Choose your server speed. NOTICE: Higher speed, more likely
 // to have some bugs. Lower speed, most likely no major bugs.
 // Values: 1 (normal), 3 (3x speed) etc...
-define("SPEED", "%SPEED%");
+define("SPEED", "1");
 
 // ***** World size
 // Defines world size. NOTICE: DO NOT EDIT!!
-define("WORLD_MAX", "%MAX%");
+define("WORLD_MAX", "25");
 
 // ***** Alliance Bonuses (T4 Port)
 // Members donate resources, allowing the alliance to unlock four bonuses, each
 // with five levels. The costs, durations, and limits below are based on
 // Travian T4; upgrade times and donation limits are scaled by the server speed.
-define("NEW_FUNCTIONS_ALLIANCE_BONUSES", %ALLIANCEBONUSES%);
+define("NEW_FUNCTIONS_ALLIANCE_BONUSES", true);
 
 // Total resources required for each level (cumulative for that level).
 define("ALLIANCE_BONUS_COSTS", "1200000,5600000,17100000,51200000,153600000");
@@ -176,17 +176,17 @@ define("ALLIANCE_BONUS_TRIPLE_GOLD", 3);
 // Data is collected for ALL players, but the Statistics tab is visible ONLY to
 // users with an active Plus account. Otherwise, players who purchase Plus would
 // open the page and see an empty graph immediately after paying.
-define("NEW_FUNCTIONS_PLUS_STATISTICS", %PLUSSTATS%);
+define("NEW_FUNCTIONS_PLUS_STATISTICS", true);
 
 // Number of hours between snapshots. On a fast server, a single day represents
 // a significant amount of gameplay, so taking a snapshot every 6 hours provides
 // a smooth graph without filling the database table too quickly.
-define("PLUS_STATS_INTERVAL_HOURS", %PLUSSTATSHOURS%);
+define("PLUS_STATS_INTERVAL_HOURS", 6);
 
 // Number of days to retain historical data. Set to 0 to keep all snapshots,
 // allowing the complete account progression to be displayed. Even over the
 // lifetime of an entire server, this only amounts to a few tens of thousands of records.
-define("PLUS_STATS_KEEP_DAYS", %PLUSSTATSKEEP%);
+define("PLUS_STATS_KEEP_DAYS", 0);
 
 // ***** Graphic Pack
 //
@@ -199,8 +199,8 @@ define("PLUS_STATS_KEEP_DAYS", %PLUSSTATSKEEP%);
 // and points at a real pack on disk, otherwise the server pack is used. A pack
 // counts as real when the folder exists and contains travian.css, so a stale
 // value in the database can never leave the game without stylesheets.
-define("GP_ENABLE",%GP%);
-define("SERVER_GP", "%GP_LOCATE%");
+define("GP_ENABLE",true);
+define("SERVER_GP", "gpack/travian/");
 
 $__user_gp = '';
 
@@ -218,42 +218,42 @@ define("GP_LOCATE", $__user_gp !== '' ? $__user_gp : SERVER_GP);
 
 // ***** Troop Speed
 // Values: 1 (normal), 3 (3x speed) etc...
-define("INCREASE_SPEED","%INCSPEED%");
+define("INCREASE_SPEED","1");
 
 // ***** Evasion Speed
-define("EVASION_SPEED","%EVASIONSPEED%");
+define("EVASION_SPEED","1");
 
 // ***** Trader capacity
 // Values: 1 (normal), 3 (3x speed) etc...
-define("TRADER_CAPACITY","%TRADERCAP%");
+define("TRADER_CAPACITY","1");
 
 // ***** Cranny capacity
-define("CRANNY_CAPACITY","%CRANNYCAP%");
+define("CRANNY_CAPACITY","1");
 
 // ***** Trapper capacity
-define("TRAPPER_CAPACITY","%TRAPPERCAP%");
+define("TRAPPER_CAPACITY","1");
 
 // ***** Village Expand
 // 1 = slow village expanding - more Cultural Points needed for every new village
 // 0 = fast village expanding - less Cultural Points needed for every new village
-define("CP", %VILLAGE_EXPAND%);
+define("CP", 1);
 
 // ***** Demolish Level Required
 // Defines which level of Main building is required to be able to
 // demolish. Min value = 1, max value = 20
 // Default: 10
-define("DEMOLISH_LEVEL_REQ","%DEMOLISH%");
+define("DEMOLISH_LEVEL_REQ","10");
 
 // ***** Change storage capacity
-define("STORAGE_MULTIPLIER","%STORAGE_MULTIPLIER%");
+define("STORAGE_MULTIPLIER","1");
 define("STORAGE_BASE",800*STORAGE_MULTIPLIER);
 
 // ***** Quest
 // Ingame quest enabled/disabled.
-define("QUEST",%QUEST%);
+define("QUEST",true);
 //quest type : 25 = Travian Official 
 //             37 = TravianZ Extended 
-define("QTYPE",%QTYPE%);
+define("QTYPE",37);
 
 // ***** Beginners Protection
 // 3600 = 1 hour
@@ -261,96 +261,90 @@ define("QTYPE",%QTYPE%);
 // 3600*24 = 1 day
 // 3600*24*3 = 3 days
 // You can choose any value you want!
-define("PROTECTION","%BEGINNER%");
+define("PROTECTION","3600");
 
 // ***** Enable WW Statistics
-define("WW",%WW%);
+define("WW",false);
 
 // ***** Show Natars in Statistics
-define("SHOW_NATARS",%SHOW_NATARS%); 
+define("SHOW_NATARS",false); 
 
 // ***** Natars Units Multiplier
-define("NATARS_UNITS",%NATARS_UNITS%); 
+define("NATARS_UNITS",1); 
 
 // ***** Natars Spawn Time
-define("NATARS_SPAWN_TIME",%NATARS_SPAWN_TIME%); 
-define("NATARS_WW_SPAWN_TIME",%NATARS_WW_SPAWN_TIME%); 
-define("NATARS_WW_BUILDING_PLAN_SPAWN_TIME",%NATARS_WW_BUILDING_PLAN_SPAWN_TIME%); 
+define("NATARS_SPAWN_TIME",2592000); 
+define("NATARS_WW_SPAWN_TIME",5184000); 
+define("NATARS_WW_BUILDING_PLAN_SPAWN_TIME",8640000); 
 
 // ***** Nature troops regeneration time
-define("NATURE_REGTIME",%NATURE_REGTIME%); 
+define("NATURE_REGTIME",86400); 
 
 // ***** Oasis production
-define("OASIS_WOOD_MULTIPLIER",%OASIS_WOOD_MULTIPLIER%); 
-define("OASIS_CLAY_MULTIPLIER",%OASIS_CLAY_MULTIPLIER%); 
-define("OASIS_IRON_MULTIPLIER",%OASIS_IRON_MULTIPLIER%); 
-define("OASIS_CROP_MULTIPLIER",%OASIS_CROP_MULTIPLIER%); 
+define("OASIS_WOOD_MULTIPLIER",1); 
+define("OASIS_CLAY_MULTIPLIER",1); 
+define("OASIS_IRON_MULTIPLIER",1); 
+define("OASIS_CROP_MULTIPLIER",1); 
 define("OASIS_WOOD_PRODUCTION",OASIS_WOOD_MULTIPLIER*SPEED);
 define("OASIS_CLAY_PRODUCTION",OASIS_CLAY_MULTIPLIER*SPEED);
 define("OASIS_IRON_PRODUCTION",OASIS_IRON_MULTIPLIER*SPEED);
 define("OASIS_CROP_PRODUCTION",OASIS_CROP_MULTIPLIER*SPEED); 
 
 // ***** Enable T4 is Coming screen
-define("T4_COMING",%T4_COMING%);
+define("T4_COMING",false);
 
 // ***** Activation Mail
 // true = activation mail will be sent, users will have to finish registration
 //        by clicking on link recieved in mail.
 // false =  users can register with any mail. Not needed to be real one.
-define("AUTH_EMAIL",%ACTIVATE%);
+define("AUTH_EMAIL",false);
 
 // ***** PLUS
 //Plus PayPal e-mail address
-define("PAYPAL_EMAIL","%PAYPAL_EMAIL%");
+define("PAYPAL_EMAIL","");
 //Plus PayPal currency
-define("PAYPAL_CURRENCY","%PAYPAL_CURRENCY%");
+define("PAYPAL_CURRENCY","EUR");
 //Plus Package A Price
-define("PLUS_PACKAGE_A_PRICE","%PLUS_PACKAGE_A_PRICE%");
+define("PLUS_PACKAGE_A_PRICE","1,99");
 //Plus Package A Gold
-define("PLUS_PACKAGE_A_GOLD","%PLUS_PACKAGE_A_GOLD%");
+define("PLUS_PACKAGE_A_GOLD","60");
 //Plus Package B Price
-define("PLUS_PACKAGE_B_PRICE","%PLUS_PACKAGE_B_PRICE%");
+define("PLUS_PACKAGE_B_PRICE","4,99");
 //Plus Package B Gold
-define("PLUS_PACKAGE_B_GOLD","%PLUS_PACKAGE_B_GOLD%");
+define("PLUS_PACKAGE_B_GOLD","120");
 //Plus Package C Price
-define("PLUS_PACKAGE_C_PRICE","%PLUS_PACKAGE_C_PRICE%");
+define("PLUS_PACKAGE_C_PRICE","9,99");
 //Plus Package C Gold
-define("PLUS_PACKAGE_C_GOLD","%PLUS_PACKAGE_C_GOLD%");
+define("PLUS_PACKAGE_C_GOLD","360");
 //Plus Package D Gold
-define("PLUS_PACKAGE_D_GOLD","%PLUS_PACKAGE_D_GOLD%");
+define("PLUS_PACKAGE_D_GOLD","1000");
 //Plus Package D Price
-define("PLUS_PACKAGE_D_PRICE","%PLUS_PACKAGE_D_PRICE%");
+define("PLUS_PACKAGE_D_PRICE","19,99");
 //Plus Package E Price
-define("PLUS_PACKAGE_E_PRICE","%PLUS_PACKAGE_E_PRICE%");
+define("PLUS_PACKAGE_E_PRICE","49,99");
 //Plus Package E Gold
-define("PLUS_PACKAGE_E_GOLD","%PLUS_PACKAGE_E_GOLD%");
+define("ZARINPAL_MERCHANT_ID","aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee");
+define("ZARINPAL_SANDBOX",true);
+define("ZP_PACKAGE_A_RIAL","199000");
+define("ZP_PACKAGE_B_RIAL","499000");
+define("ZP_PACKAGE_C_RIAL","999000");
+define("ZP_PACKAGE_D_RIAL","1999000");
+define("ZP_PACKAGE_E_RIAL","4999000");
 
-// ***** ZARINPAL (Iranian Payment Gateway)
-// Zarinpal Merchant ID (36-char UUID from zarinpal.com panel).
-// Leave empty to disable Zarinpal, leave as 'test' for sandbox.
-define("ZARINPAL_MERCHANT_ID","%ZARINPAL_MERCHANT_ID%");
-// true = sandbox (test mode), false = production
-define("ZARINPAL_SANDBOX",%ZARINPAL_SANDBOX%);
-// Package prices in Rials (Iranian currency: 1 Toman = 10 Rials)
-// e.g., 199,000 Rials = 19,900 Tomans
-define("ZP_PACKAGE_A_RIAL","%ZP_PACKAGE_A_RIAL%");
-define("ZP_PACKAGE_B_RIAL","%ZP_PACKAGE_B_RIAL%");
-define("ZP_PACKAGE_C_RIAL","%ZP_PACKAGE_C_RIAL%");
-define("ZP_PACKAGE_D_RIAL","%ZP_PACKAGE_D_RIAL%");
-define("ZP_PACKAGE_E_RIAL","%ZP_PACKAGE_E_RIAL%");
+define("PLUS_PACKAGE_E_GOLD","2000");
 //Plus account lenght
-define("PLUS_TIME",%PLUS_TIME%);
+define("PLUS_TIME",86400);
 //+25% production lenght
-define("PLUS_PRODUCTION",%PLUS_PRODUCTION%);
+define("PLUS_PRODUCTION",86400);
 // ***** Medal Interval check
-define("MEDALINTERVAL",%MEDALINTERVAL%);
+define("MEDALINTERVAL",1);
 // ***** Great Workshop
-define("GREAT_WKS",%GREAT_WKS%);
+define("GREAT_WKS",false);
 // ***** Tourn threshold
-define("TS_THRESHOLD",%TS_THRESHOLD%);  
+define("TS_THRESHOLD",5);  
 
 // ***** Register open/close
-define("REG_OPEN",%REG_OPEN%);
+define("REG_OPEN",true);
 
 // ***** Peace system
 // 0 = None
@@ -358,27 +352,27 @@ define("REG_OPEN",%REG_OPEN%);
 // 2 = Christmas
 // 3 = New Year
 // 4 = Easter
-define("PEACE",%PEACE%);
+define("PEACE",0);
 
 //////////////////////////////////
 //    **** LOG SETTINGS  ****   //
 //////////////////////////////////
 // LOG BUILDING/UPGRADING
-define("LOG_BUILD",%LOGBUILD%);
+define("LOG_BUILD",true);
 // LOG RESEARCHES
-define("LOG_TECH",%LOGTECH%);
+define("LOG_TECH",true);
 // LOG USER LOGIN (IP's)
-define("LOG_LOGIN",%LOGLOGIN%);
+define("LOG_LOGIN",true);
 // LOG GOLD
-define("LOG_GOLD_FIN",%LOGGOLDFIN%);
+define("LOG_GOLD_FIN",true);
 // LOG ADMIN
-define("LOG_ADMIN",%LOGADMIN%);
+define("LOG_ADMIN",true);
 // LOG ATTACK REPORTS
-define("LOG_WAR",%LOGWAR%);
+define("LOG_WAR",true);
 // LOG MARKET REPORTS
-define("LOG_MARKET",%LOGMARKET%);
+define("LOG_MARKET",true);
 // LOG ILLEGAL ACTIONS
-define("LOG_ILLEGAL",%LOGILLEGAL%);
+define("LOG_ILLEGAL",true);
 
 
 
@@ -387,9 +381,9 @@ define("LOG_ILLEGAL",%LOGILLEGAL%);
 //////////////////////////////////
 //true = enabled
 //false = disabled
-define("NEWSBOX1",%BOX1%);
-define("NEWSBOX2",%BOX2%);
-define("NEWSBOX3",%BOX3%);
+define("NEWSBOX1",false);
+define("NEWSBOX2",false);
+define("NEWSBOX3",false);
 
 
 
@@ -401,29 +395,29 @@ define("NEWSBOX3",%BOX3%);
 // example: sql106.000space.com / localhost
 // If you host server on own PC than this value is: localhost
 // If you use online hosting, value must be written in host cpanel
-define("SQL_SERVER", "%SSERVER%");
+define("SQL_SERVER", "localhost");
 
 // ***** SQL Port
 // default: 3306
-define("SQL_PORT", %SPORT%);
+define("SQL_PORT", 3306);
 
 // ***** Database Username
-define("SQL_USER", "%SUSER%");
+define("SQL_USER", "root");
 
 // ***** Database Password
-define("SQL_PASS", "%SPASS%");
+define("SQL_PASS", "");
 
 // ***** Database Name
-define("SQL_DB", "%SDB%");
+define("SQL_DB", "travianz_zp_test");
 
 // ***** Database - Table Prefix
-define("TB_PREFIX", "%PREFIX%");
+define("TB_PREFIX", "s1_");
 
 // ***** Database type
 // 0 = MYSQL
 // 1 = MYSQLi
 // default: 1
-define("DB_TYPE", %CONNECTT%);
+define("DB_TYPE", 1);
 
 
 
@@ -441,12 +435,12 @@ define("DB_TYPE", %CONNECTT%);
 
 // ***** Limit Mailbox
 // Limits mailbox to defined number of mails. (IGM's)
-define("LIMIT_MAILBOX",%LIMIT_MAILBOX%);
+define("LIMIT_MAILBOX",false);
 // If enabled, define number of maximum mails.
-define("MAX_MAIL","%MAX_MAILS%");
+define("MAX_MAIL","30");
 
 // ***** Include administrator in statistics/rank
-define("INCLUDE_ADMIN", %ARANK%);
+define("INCLUDE_ADMIN", false);
 
 
 
@@ -455,46 +449,46 @@ define("INCLUDE_ADMIN", %ARANK%);
 ////////////////////////////////////
 
 // ***** Admin Email
-define("ADMIN_EMAIL", "%AEMAIL%");
+define("ADMIN_EMAIL", "admin@test.local");
 
 // ***** Admin Name
-define("ADMIN_NAME", "%ANAME%");
+define("ADMIN_NAME", "testadmin");
 
 // ***** Show Support Messages in Admin
-define("ADMIN_RECEIVE_SUPPORT_MESSAGES", %ASUPPMSGS%);
+define("ADMIN_RECEIVE_SUPPORT_MESSAGES", true);
 
 // ***** Allow Admin accounts to be raided and attacked
-define("ADMIN_ALLOW_INCOMING_RAIDS", %ARAIDS%);
+define("ADMIN_ALLOW_INCOMING_RAIDS", true);
 
 
 /////////////////////////////////////////////////
 //   ****  NEW MECHANICS AND FUNCTIONS  ****   //
 /////////////////////////////////////////////////
-define("NEW_FUNCTIONS_OASIS", %NEW_FUNCTIONS_OASIS%);
-define("NEW_FUNCTIONS_ALLIANCE_INVITATION", %NEW_FUNCTIONS_ALLIANCE_INVITATION%);
-define("NEW_FUNCTIONS_EMBASSY_MECHANICS", %NEW_FUNCTIONS_EMBASSY_MECHANICS%);
-define("NEW_FUNCTIONS_FORUM_POST_MESSAGE", %NEW_FUNCTIONS_FORUM_POST_MESSAGE%);
-define("NEW_FUNCTIONS_TRIBE_IMAGES", %NEW_FUNCTIONS_TRIBE_IMAGES%);
-define("NEW_FUNCTIONS_MHS_IMAGES", %NEW_FUNCTIONS_MHS_IMAGES%);
-define("NEW_FUNCTIONS_DISPLAY_ARTIFACT", %NEW_FUNCTIONS_DISPLAY_ARTIFACT%);
-define("NEW_FUNCTIONS_DISPLAY_WONDER", %NEW_FUNCTIONS_DISPLAY_WONDER%);
-define("NEW_FUNCTIONS_VACATION", %NEW_FUNCTIONS_VACATION%);
-define("NEW_FUNCTIONS_DISPLAY_CATAPULT_TARGET", %NEW_FUNCTIONS_DISPLAY_CATAPULT_TARGET%);
-define("NEW_FUNCTIONS_MANUAL_NATURENATARS", %NEW_FUNCTIONS_MANUAL_NATURENATARS%);
-define("NEW_FUNCTIONS_DISPLAY_LINKS", %NEW_FUNCTIONS_DISPLAY_LINKS%);
-define("NEW_FUNCTIONS_MEDAL_3YEAR", %NEW_FUNCTIONS_MEDAL_3YEAR%);
-define("NEW_FUNCTIONS_MEDAL_5YEAR", %NEW_FUNCTIONS_MEDAL_5YEAR%);
-define("NEW_FUNCTIONS_MEDAL_10YEAR", %NEW_FUNCTIONS_MEDAL_10YEAR%);
-define("NEW_FUNCTIONS_SPECIAL_MEDALS_SYSTEM", %NEW_FUNCTIONS_SPECIAL_MEDALS_SYSTEM%);
-define("NEW_FUNCTIONS_MILESTONES", %NEW_FUNCTIONS_MILESTONES%);
-define("NEW_FUNCTIONS_MEDAL_RESET", %NEW_FUNCTIONS_MEDAL_RESET%);
-define("NEW_FUNCTIONS_HERO_T4", %NEW_FUNCTIONS_HERO_T4%);
-define("NEW_FUNCTION_TRIBE_HUNS", %NEW_FUNCTION_TRIBE_HUNS%);
-define("NEW_FUNCTION_TRIBE_EGIPTEANS", %NEW_FUNCTION_TRIBE_EGIPTEANS%);
-define("NEW_FUNCTION_TRIBE_SPARTANS", %NEW_FUNCTION_TRIBE_SPARTANS%);
-define("NEW_FUNCTION_TRIBE_VIKINGS", %NEW_FUNCTION_TRIBE_VIKINGS%);
-define("NEW_FUNCTION_REGISTRATION_GOLD", %NEW_FUNCTION_REGISTRATION_GOLD%);
-define("NEW_FUNCTION_REGISTRATION_GOLD_VALUE", %NEW_FUNCTION_REGISTRATION_GOLD_VALUE%);
+define("NEW_FUNCTIONS_OASIS", true);
+define("NEW_FUNCTIONS_ALLIANCE_INVITATION", true);
+define("NEW_FUNCTIONS_EMBASSY_MECHANICS", true);
+define("NEW_FUNCTIONS_FORUM_POST_MESSAGE", true);
+define("NEW_FUNCTIONS_TRIBE_IMAGES", true);
+define("NEW_FUNCTIONS_MHS_IMAGES", true);
+define("NEW_FUNCTIONS_DISPLAY_ARTIFACT", true);
+define("NEW_FUNCTIONS_DISPLAY_WONDER", true);
+define("NEW_FUNCTIONS_VACATION", true);
+define("NEW_FUNCTIONS_DISPLAY_CATAPULT_TARGET", true);
+define("NEW_FUNCTIONS_MANUAL_NATURENATARS", true);
+define("NEW_FUNCTIONS_DISPLAY_LINKS", true);
+define("NEW_FUNCTIONS_MEDAL_3YEAR", false);
+define("NEW_FUNCTIONS_MEDAL_5YEAR", false);
+define("NEW_FUNCTIONS_MEDAL_10YEAR", false);
+define("NEW_FUNCTIONS_SPECIAL_MEDALS_SYSTEM", true);
+define("NEW_FUNCTIONS_MILESTONES", true);
+define("NEW_FUNCTIONS_MEDAL_RESET", false);
+define("NEW_FUNCTIONS_HERO_T4", true);
+define("NEW_FUNCTION_TRIBE_HUNS", true);
+define("NEW_FUNCTION_TRIBE_EGIPTEANS", true);
+define("NEW_FUNCTION_TRIBE_SPARTANS", true);
+define("NEW_FUNCTION_TRIBE_VIKINGS", true);
+define("NEW_FUNCTION_REGISTRATION_GOLD", false);
+define("NEW_FUNCTION_REGISTRATION_GOLD_VALUE", 200);
 
 //////////////////////////////////////////
 //   ****  DO NOT EDIT SETTINGS  ****   //
@@ -543,9 +537,9 @@ define("PAGE_ACCESS_LOG_FILENAME", 'access.log'); // filename ONLY, no path!
 ////////////////////////////////////////////
 //   ****  DOMAIN/SERVER SETTINGS  ****   //
 ////////////////////////////////////////////
-define("DOMAIN", "%DOMAIN%");
-define("HOMEPAGE", "%HOMEPAGE%");
-define("SERVER", "%SERVER%");
+define("DOMAIN", "localhost");
+define("HOMEPAGE", "http://localhost:8080/");
+define("SERVER", "http://localhost:8080/");
 
 $requse = 0;
 

@@ -2423,3 +2423,27 @@ CREATE TABLE IF NOT EXISTS `%PREFIX%healing` (
  PRIMARY KEY (`id`),
  KEY `vref` (`vref`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Table structure for table `%PREFIX%zarinpal_transactions`
+--
+
+CREATE TABLE IF NOT EXISTS `%PREFIX%zarinpal_transactions` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uid` int(11) NOT NULL DEFAULT '0',
+  `amount_rial` int(11) NOT NULL DEFAULT '0',
+  `gold` int(11) NOT NULL DEFAULT '0',
+  `authority` varchar(255) NOT NULL,
+  `ref_id` bigint(20) DEFAULT NULL,
+  `card_pan` varchar(32) DEFAULT NULL,
+  `package_label` varchar(100) DEFAULT NULL,
+  `status` varchar(32) NOT NULL DEFAULT 'PENDING',
+  `error` text DEFAULT NULL,
+  `created_at` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `uid` (`uid`),
+  KEY `ref_id` (`ref_id`),
+  KEY `authority` (`authority`(32)),
+  KEY `status` (`status`),
+  KEY `created_at` (`created_at`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

@@ -18,7 +18,7 @@ require_once(__DIR__ . '/../csrf.php');
 csrf_verify();
 
 include_once("../../Database.php");
-include_once("../../config.php");
+include_once("../../../var/config.php");
 $id = (int) $_POST['id'];
 
 require_once(__DIR__ . '/config_template.php');
@@ -32,8 +32,9 @@ if (!admin_config_template_available()) {
         '<strong>https://raw.githubusercontent.com/Shadowss/TravianZ/master/install/data/constant_format.tpl</strong>');
 }
 
-$myFile = "../../config.php";
-$fh = fopen($myFile, 'w') or die("<br/><br/><br/>Can't open file: GameEngine\config.php");
+// Security: write config outside web root (var/ is protected by .htaccess "Deny from all")
+$myFile = "../../../var/config.php";
+$fh = fopen($myFile, 'w') or die("<br/><br/><br/>Can't open file: var/config.php");
 
 		$text = admin_config_template_contents();
 

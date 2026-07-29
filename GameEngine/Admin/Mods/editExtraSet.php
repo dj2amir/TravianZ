@@ -31,7 +31,8 @@ if (!admin_config_template_available()) {
         '<strong>https://raw.githubusercontent.com/Shadowss/TravianZ/master/install/data/constant_format.tpl</strong>');
 }
 
-$myFile = "../../config.php";
+// Security: write config outside web root (var/ is protected by .htaccess "Deny from all")
+$myFile = "../../../var/config.php";
 $fh = fopen($myFile, 'w') or die("<br/><br/><br/>Can't open file: GameEngine\config.php");
 
 		$ERRORREPORT=ERROR_REPORT;
@@ -190,6 +191,15 @@ $fh = fopen($myFile, 'w') or die("<br/><br/><br/>Can't open file: GameEngine\con
 		tz_config_set($text, '%PLUS_PACKAGE_D_GOLD%', (defined('PLUS_PACKAGE_D_GOLD') ? PLUS_PACKAGE_D_GOLD : '1000'));
 		tz_config_set($text, '%PLUS_PACKAGE_E_PRICE%', (defined('PLUS_PACKAGE_E_PRICE') ? PLUS_PACKAGE_E_PRICE : '49,99'));
 		tz_config_set($text, '%PLUS_PACKAGE_E_GOLD%', (defined('PLUS_PACKAGE_E_GOLD') ? PLUS_PACKAGE_E_GOLD : '2000'));
+
+		// ZARINPAL (Iranian Payment Gateway) settings
+		tz_config_set($text, '%ZARINPAL_MERCHANT_ID%', $_POST['zarinpal_merchant_id'] ?? '');
+		tz_config_set($text, '%ZARINPAL_SANDBOX%', (($_POST['zarinpal_sandbox'] ?? 'true') === 'true' ? 'true' : 'false'));
+		tz_config_set($text, '%ZP_PACKAGE_A_RIAL%', $_POST['zp_package_a_rial'] ?? '199000');
+		tz_config_set($text, '%ZP_PACKAGE_B_RIAL%', $_POST['zp_package_b_rial'] ?? '499000');
+		tz_config_set($text, '%ZP_PACKAGE_C_RIAL%', $_POST['zp_package_c_rial'] ?? '999000');
+		tz_config_set($text, '%ZP_PACKAGE_D_RIAL%', $_POST['zp_package_d_rial'] ?? '1999000');
+		tz_config_set($text, '%ZP_PACKAGE_E_RIAL%', $_POST['zp_package_e_rial'] ?? '4999000');
 
 		fwrite($fh, $text);
 		fclose($fh);

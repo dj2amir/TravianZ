@@ -3,7 +3,7 @@
 if($_POST && count($_POST)) 
 { 
     include_once('GameEngine/config.php');
-    $strEmpfaenger = (ADMIN_EMAIL ? ADMIN_EMAIL : (PAYPAL_EMAIL ? PAYPAL_EMAIL : 'martin@martinambrus.com'));
+    $strEmpfaenger = defined('ADMIN_EMAIL') ? ADMIN_EMAIL : 'admin@' . ($_SERVER['HTTP_HOST'] ?? 'localhost');
     
     $strFrom = "From: TravianiX Support <$strEmpfaenger>\n";
     $strFrom .= "X-Sender: <$strEmpfaenger>\n";

@@ -30,8 +30,12 @@ if(!file_exists('var/installed') && @opendir('install')) {
 include("GameEngine/Account.php");
 AccessLogger::logRequest();
 
+// Include CSRF on GET so the token is available when the form renders
+include_once(__DIR__ . '/Security/CSRF.php');
+
 if(isset($_GET['del_cookie'])) {
-	setcookie("COOKUSR","",time()-3600*24,"/");
+	$isSecure = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off');
+	setcookie("COOKUSR","",time()-3600*24,"/", '', $isSecure, true);
 	header("Location: login.php");
 	exit;
 }
@@ -39,12 +43,14 @@ if(!isset($_COOKIE['COOKUSR'])) {
 	$_COOKIE['COOKUSR'] = "";
 }
 
-if ( $_SERVER[ 'REQUEST_METHOD' ] == 'POST' ) {
-    if ( !isset( $_SESSION[ 'csrf' ] ) || $_SESSION[ 'csrf' ] !== $_POST[ 'csrf' ] )
-        throw new RuntimeException( 'CSRF attack' );
+// CSRF protection using the shared game token (Security/CSRF.php)
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    include_once(__DIR__ . '/Security/CSRF.php');
+    if (!game_csrf_verify()) {
+        http_response_code(403);
+        die('CSRF validation failed. Please reload the page and try again.');
+    }
 }
-$key                = sha1( microtime() );
-$_SESSION[ 'csrf' ] = $key;
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -168,6 +174,7 @@ CountBack(gsecs);
 }else{ ?>
 <form method="post" name="snd" action="login.php">
 <input type="hidden" name="ft" value="a4" />
+<?php echo game_csrf_field(); ?>
 <script type="text/javascript">
 Element.implement({
 	 //imgid: if an arrow belongs to the link this can be "opened"

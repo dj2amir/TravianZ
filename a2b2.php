@@ -43,6 +43,27 @@ if (isset($_GET['newdid'])) {
 
 $building->procBuild($_GET);
 
+// --- Zarinpal payment result messages ---
+$zpResult = $_GET['zp'] ?? '';
+$zpMsg    = $_GET['msg'] ?? '';
+$zpRef    = $_GET['ref'] ?? '';
+$zpMessageBox = '';
+if ($zpResult === 'success') {
+    $zpMessageBox = '<div style="background:#dcfce7;border:1px solid #86efac;color:#166534;padding:12px 16px;border-radius:8px;margin:10px 0;font-weight:600;">'
+        . (defined('TZ_ZARINPAL_PAYMENT_SUCCESS') ? TZ_ZARINPAL_PAYMENT_SUCCESS : 'Payment successful! Gold has been credited to your account.')
+        . ($zpRef ? ' (' . (defined('TZ_ZARINPAL_PAYMENT_VERIFIED') ? sprintf(TZ_ZARINPAL_PAYMENT_VERIFIED, e($zpRef)) : 'Ref ID: ' . e($zpRef)) . ')' : '')
+        . '</div>';
+} elseif ($zpResult === 'failed') {
+    $zpMessageBox = '<div style="background:#fee2e2;border:1px solid #fca5a5;color:#991b1b;padding:12px 16px;border-radius:8px;margin:10px 0;font-weight:600;">'
+        . (defined('TZ_ZARINPAL_PAYMENT_FAILED') ? TZ_ZARINPAL_PAYMENT_FAILED : 'Payment failed. Please try again.')
+        . ($zpMsg ? '<br><small>' . e($zpMsg) . '</small>' : '')
+        . '</div>';
+} elseif ($zpResult === 'cancelled') {
+    $zpMessageBox = '<div style="background:#fef3c7;border:1px solid #fcd34d;color:#92400e;padding:12px 16px;border-radius:8px;margin:10px 0;font-weight:600;">'
+        . (defined('TZ_ZARINPAL_PAYMENT_FAILED') ? TZ_ZARINPAL_PAYMENT_FAILED : 'Payment cancelled.')
+        . '</div>';
+}
+
 $transactionProcessed = false;
 $oldBalance = 0;
 $newBalance = 0;
@@ -99,6 +120,8 @@ if (isset($packages[$amount]) && $amount > 0) {
 
         <h1>Account transactions</h1>
         
+        <?php if ($zpMessageBox !== '') { echo $zpMessageBox; } ?>
+
         <div id="products">
             <?php if ($transactionProcessed) { ?>
                 <p>Thank you for your purchase here at <?php echo SERVER_NAME; ?>.</p>
@@ -142,7 +165,7 @@ if (isset($packages[$amount]) && $amount > 0) {
 
                 <p>Please verify the information.<br>It will let us know if the data is incorrect.</p>
                 <p>Please mail your username, package, order time and email used to 
-                <a href="mailto:<?php echo defined('PAYPAL_EMAIL') ? PAYPAL_EMAIL : 'novgorodschi@icloud.com'; ?>">our billing address</a>.</p>
+                <a href="mailto:<?php echo defined('ADMIN_EMAIL') ? ADMIN_EMAIL : 'admin@' . ($_SERVER['HTTP_HOST'] ?? 'localhost'); ?>">our billing address</a>.</p>
 
             <?php } else { 
                 // --- ISTORIC NORMAL CU FILTRU ---
@@ -269,7 +292,7 @@ if (isset($packages[$amount]) && $amount > 0) {
 
                 <p>Please verify the information.<br>It will let us know if the data is incorrect.</p>
                 <p>Please mail your username, package, order time and email used to 
-                <a href="mailto:<?php echo defined('PAYPAL_EMAIL') ? PAYPAL_EMAIL : 'cata7007@gmail.com'; ?>">our billing address</a>.</p>
+                <a href="mailto:<?php echo defined('ADMIN_EMAIL') ? ADMIN_EMAIL : 'admin@' . ($_SERVER['HTTP_HOST'] ?? 'localhost'); ?>">our billing address</a>.</p>
             <?php } ?>
         </div>
     </div>

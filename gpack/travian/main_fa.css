@@ -1,0 +1,215 @@
+@charset "utf-8";
+/*
+ * TravianZ - Persian RTL Stylesheet
+ * Overrides direction and positioning for Persian/Farsi language
+ * Uses Vazir font (https://github.com/rastikerdar/vazir-font)
+ * 
+ * Load this CSS AFTER main.css to override LTR-specific rules
+ */
+
+/* === Vazir Font Import === */
+@font-face {
+    font-family: 'Vazir';
+    src: url('../fonts/Vazir.woff2') format('woff2'),
+         url('../fonts/Vazir.woff') format('woff'),
+         url('../fonts/Vazir.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Vazir';
+    src: url('../fonts/Vazir-Bold.woff2') format('woff2'),
+         url('../fonts/Vazir-Bold.woff') format('woff'),
+         url('../fonts/Vazir-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+/* === Global RTL Overrides === */
+html, body {
+    direction: rtl;
+    text-align: right;
+}
+
+body, button, input, select, textarea {
+    font-family: 'Vazir', Tahoma, Arial, sans-serif;
+    font-size: 14px;
+    line-height: 24px;
+}
+
+a { font-size: 14px; }
+
+.wrapper { direction: rtl; }
+
+/* === Header & Navigation RTL Fixes === */
+#navigation { right: auto; left: 50%; margin-right: -437px; }
+
+#navigation table.menu { right: auto; left: 25px; }
+
+#navigation a.home { left: auto; right: 55px; }
+
+#navigation .menu a span { padding: 6px 10px 7px 0; }
+
+/* === Content Area RTL Fixes === */
+#content { text-align: right; }
+
+.wrapper #content { text-align: right; }
+
+body.contentpage #content td.beschreibung { text-align: right; }
+
+body.contentpage #content h2, 
+body.contentpage #content h3 { margin-left: 160px; margin-right: 160px; }
+
+/* === Index Page RTL Fixes === */
+#register_now { right: 50%; left: auto; margin-right: -151px; }
+
+#player_counter table { right: 135px; left: auto; }
+
+.grit .infobox { float: right; margin-right: 15px; margin-left: 9px; }
+
+.grit .infobox div { padding-right: 43px; padding-left: 30px; }
+
+.grit .secondarybox { float: right; }
+
+#about_the_game ul { margin: 5px 15px 0 0; }
+
+/* === Footer RTL Fixes === */
+#footer .menu { right: auto; left: 9px; }
+
+#footer .copyright { right: auto; left: 3px; }
+
+/* === Overlay RTL Fixes === */
+.overlay_content .closer img { right: auto; left: 15px; }
+
+/* === Screenshot Layer RTL Fixes === */
+#screenshot_layer .next img { right: auto; left: 20px; }
+
+#screenshot_layer .prev img { right: 20px; left: auto; }
+
+/* === World List RTL Fixes === */
+.world_list li { float: right; }
+
+.world_list .label_players, .world_list .label_online { right: 235px; left: auto; }
+
+/* === Table & Text RTL === */
+td.text, th.text { padding-right: 7px; padding-left: 0; text-align: right; }
+
+body.contentpage .rules { margin-right: 120px; margin-left: 160px; }
+
+/* === In-Game Panel (dorf1, dorf2) RTL === */
+#village_map, #build, #contentOuter, #contentInner { direction: rtl; float: right; }
+
+#res_info, #village_info, #build #chart, #build #contract, #build #build {
+    float: right;
+}
+
+#village_map .labelLayer, #village_map .resLayer { direction: rtl; }
+
+#sidebar, #side_info { float: left; }
+
+/* === Map RTL === */
+#map_content { direction: rtl; }
+
+/* === Chat RTL === */
+#chatInput, #chatMessages { direction: rtl; text-align: right; }
+
+/* === Messages RTL === */
+.messages_table td { text-align: right; }
+
+/* === Reports RTL === */
+.report_content { direction: rtl; text-align: right; }
+
+/* === Alliance RTL === */
+.alliance_content { direction: rtl; }
+
+.forum_topic td, .forum_post td { text-align: right; }
+
+/* === Building View RTL === */
+.building_desc { direction: rtl; }
+
+.building_levels { direction: rtl; }
+
+/* === Troop Movement RTL === */
+.troop_movement { direction: rtl; }
+
+.movement_table td { text-align: right; }
+
+/* === Form RTL === */
+input[type="text"], input[type="password"], input[type="email"],
+textarea, select {
+    direction: rtl;
+    text-align: right;
+}
+
+/* === Float Utility Reset (LTR) to RTL === */
+.pull-left { float: right !important; }
+
+.pull-right { float: left !important; }
+
+.text-left { text-align: right !important; }
+
+.text-right { text-align: left !important; }
+
+/* === Lists RTL === */
+ul, ol { padding-right: 0; }
+
+/* === RTL-Specific Positioning Fixes === */
+/* Mirror any LTR absolute positioning */
+#dynamic_header .menu li,
+#dynamic_header #mtop { float: right; }
+
+#mid #content { text-align: right; }
+
+/* === Misc RTL Fixes === */
+.news_text { direction: rtl; }
+
+#notice td { text-align: right; }
+
+/* Error/Success boxes */
+.error_box, .success_box { direction: rtl; text-align: right; }
+
+/* Gold/Plus menu */
+#plus #content { direction: rtl; }
+
+/* Hero items hover */
+.hero_item_tooltip { direction: rtl; text-align: right; }
+
+/* Marketplace */
+.market_list td { text-align: right; }
+
+/* Manual / Help pages */
+.manual_content { direction: rtl; text-align: right; }
+
+/* Profile pages */
+.profile_section { direction: rtl; }
+
+/* Quest */
+.quest_content { direction: rtl; }
+
+.quest_task_desc { direction: rtl; text-align: right; }
+
+/* Statistics table */
+.statistics_table td { text-align: right; }
+
+/* Admin panel overrides (if using game theme) */
+#admin_content { direction: rtl; }
+
+/* Fix inline-block and inline elements alignment */
+.navi { float: right; }
+
+/* Footer fix */
+body.contentpage #footer .menu { left: 9px; right: auto; }
+
+/* === Mobile responsive fixes for RTL === */
+@media (max-width: 768px) {
+    .wrapper { min-width: 320px; }
+    #navigation { margin: 0; width: 100%; }
+}
+
+/* === Support RTL with graceful fallback === */
+html[dir="rtl"] body { direction: rtl; text-align: right; }
+
+html[dir="rtl"] .wrapper { direction: rtl; }
+
+/* === Number styling (use Persian numerals if font supports it) === */
+body * { -moz-font-feature-settings: "ss02"; -webkit-font-feature-settings: "ss02"; font-feature-settings: "ss02"; }

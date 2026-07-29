@@ -83,7 +83,8 @@ if ($regenerateKey || $cronKey === '') {
 // ---------------------------------------------------------------------------
 // Editarea chirurgicala a fisierului de configuratie
 // ---------------------------------------------------------------------------
-$configFile = "../../config.php";
+// Security: write config outside web root (var/ is protected by .htaccess)
+$configFile = "../../../var/config.php";
 $config     = @file_get_contents($configFile);
 
 if ($config === false) {

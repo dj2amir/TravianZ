@@ -127,6 +127,13 @@ $role = $_SESSION['access'] == ADMIN ? 'Administrator' : 'MultiHunter';
     <div class="card"><h3><?php echo ADM_LAST_REGISTRATION; ?></h3><div class="val" style="font-size:15px !important"><a href="admin.php?p=player&uid=<?php echo $lastReg['id']; ?>" style="color:#2563eb !important"><?php echo htmlspecialchars($lastReg['username']); ?></a></div><div class="subv">ID #<?php echo $lastReg['id']; ?></div></div>
     <div class="card"><h3>PHP / MySQL</h3><div class="val" style="font-size:15px !important"><?php echo PHP_VERSION; ?></div><div class="subv"><?php echo $database->dblink->server_info; ?></div></div>
     <div class="card"><h3><?php echo ADM_SERVER_CLOCK; ?></h3><div class="val" style="font-size:15px !important"><?php echo date('H:i:s'); ?></div><div class="subv">Uptime: <?php echo @exec('uptime -p') ?: 'n/a'; ?></div></div>
+<?php
+$cronMarker = '../GameEngine/Prevention/cron_active.txt';
+$cronLastTs = is_file($cronMarker) ? (int)@file_get_contents($cronMarker) : 0;
+$cronAge = $cronLastTs > 0 ? time() - $cronLastTs : -1;
+$cronClass = $cronLastTs === 0 ? 'red' : ($cronAge < 300 ? 'green' : ($cronAge < 600 ? 'orange' : 'red'));
+?>
+    <div class="card <?php echo $cronClass; ?>"><h3><?php echo ADM_CRON_STATUS; ?></h3><div class="val" style="font-size:15px !important"><?php echo $cronAge >= 0 ? ADM_CRON_ACTIVE : ADM_CRON_INACTIVE; ?></div><div class="subv"><?php if($cronLastTs > 0): echo date('H:i', $cronLastTs); if($cronAge < 120): echo ' ('.ADM_CRON_ACTIVE.')'; else: echo ' ('.floor($cronAge/60).'m '.ADM_CRON_AGO.')'; endif; else: echo ADM_CRON_NEVER; endif; ?></div></div>
   </div>
   <!-- TIMELINE NOU - IN PLUS -->
   <div class="panel">
@@ -164,6 +171,7 @@ $role = $_SESSION['access'] == ADMIN ? 'Administrator' : 'MultiHunter';
       <a href="admin.php?p=natars"><?php echo ADM_QA_NATARS; ?></a>
       <a href="admin.php?p=addUser"><?php echo ADM_QA_ADD_USER; ?></a>
       <a href="admin.php?p=server_info"><?php echo ADM_QA_SERVER_INFO; ?></a>
+      <a href="#" onclick="forceCron(this);return false;" style="background:#d97706 !important;color:#fff !important;border-color:#d97706 !important;"><?php echo ADM_QA_FORCE_CRON; ?></a>
     </div>
   </div>
 
@@ -173,3 +181,26 @@ $role = $_SESSION['access'] == ADMIN ? 'Administrator' : 'MultiHunter';
 		<div class="shadow-old">Based on: Akakori & Elmar | Fixed by: Dzoki | Reworked by: aggenkeech</div>
 	</div>
 </div>
+
+<script>
+function forceCron(btn) {
+    var orig = btn.textContent;
+    btn.textContent = '⏳ Processing...';
+    btn.style.opacity = '0.7';
+    btn.style.pointerEvents = 'none';
+
+    fetch('../cron.php?once=1&key=<?php echo CRON_KEY; ?>')
+        .then(function(r) { return r.text(); })
+        .then(function(txt) {
+            var msg = txt.trim() === 'OK' || txt.indexOf('cron:') === 0
+                ? '✅ Cron executed successfully!' : '⚠️ ' + txt.substring(0,80);
+            alert(msg);
+        })
+        .catch(function() { alert('❌ Could not reach cron.php'); })
+        .finally(function() {
+            btn.textContent = orig;
+            btn.style.opacity = '1';
+            btn.style.pointerEvents = 'auto';
+        });
+}
+</script>

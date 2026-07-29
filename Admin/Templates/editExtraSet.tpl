@@ -83,7 +83,52 @@ if($_SESSION['access'] < 9) die(ACCESS_DENIED_ADMIN);
                 </tbody>
             </table>
         </div>
-    <div class="config-actions">
+        <!-- Zarinpal Payment Gateway Settings -->
+    <div class="config-card">
+        <div class="config-head">
+            <span><?php echo defined('CONF_PLUS_ZARINPAL') ? CONF_PLUS_ZARINPAL : 'Zarinpal Settings'; ?></span>
+            <em class="tooltip">?<span class="classic"><?php echo defined('CONF_PLUS_ZARINPAL_TOOLTIP') ? CONF_PLUS_ZARINPAL_TOOLTIP : 'Iranian payment gateway for automatic gold purchases.'; ?></span></em>
+        </div>
+        <table class="config-table">
+            <tbody>
+                <tr>
+                    <td class="b"><?php echo defined('TZ_ZARINPAL_MERCHANT_ID') ? TZ_ZARINPAL_MERCHANT_ID : 'Merchant ID'; ?> <em class="tooltip">?<span class="classic"><?php echo defined('TZ_ZARINPAL_MERCHANT_ID_TOOLTIP') ? TZ_ZARINPAL_MERCHANT_ID_TOOLTIP : '36-char UUID from zarinpal.com'; ?></span></em></td>
+                    <td><input class="fm" name="zarinpal_merchant_id" value="<?php echo defined('ZARINPAL_MERCHANT_ID') ? e(ZARINPAL_MERCHANT_ID) : ''; ?>" placeholder="00000000-0000-0000-0000-000000000000" size="40"></td>
+                </tr>
+                <tr>
+                    <td class="b"><?php echo defined('TZ_ZARINPAL_SANDBOX') ? TZ_ZARINPAL_SANDBOX : 'Sandbox Mode'; ?> <em class="tooltip">?<span class="classic"><?php echo defined('TZ_ZARINPAL_SANDBOX_TOOLTIP') ? TZ_ZARINPAL_SANDBOX_TOOLTIP : 'Enable for testing.'; ?></span></em></td>
+                    <td>
+                        <select name="zarinpal_sandbox">
+                            <option value="true" <?php if (defined('ZARINPAL_SANDBOX') && ZARINPAL_SANDBOX) echo "selected";?>><?php echo ADM_YES; ?></option>
+                            <option value="false" <?php if (defined('ZARINPAL_SANDBOX') && !ZARINPAL_SANDBOX) echo "selected";?>><?php echo ADM_NO; ?></option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="b"><?php echo defined('CONF_PLUS_ZP_PACKAGE_A') ? CONF_PLUS_ZP_PACKAGE_A : 'Package A (Rials)'; ?></td>
+                    <td><input class="fm" name="zp_package_a_rial" value="<?php echo defined('ZP_PACKAGE_A_RIAL') ? e(ZP_PACKAGE_A_RIAL) : '199000'; ?>" size="15"></td>
+                </tr>
+                <tr>
+                    <td class="b"><?php echo defined('CONF_PLUS_ZP_PACKAGE_B') ? CONF_PLUS_ZP_PACKAGE_B : 'Package B (Rials)'; ?></td>
+                    <td><input class="fm" name="zp_package_b_rial" value="<?php echo defined('ZP_PACKAGE_B_RIAL') ? e(ZP_PACKAGE_B_RIAL) : '499000'; ?>" size="15"></td>
+                </tr>
+                <tr>
+                    <td class="b"><?php echo defined('CONF_PLUS_ZP_PACKAGE_C') ? CONF_PLUS_ZP_PACKAGE_C : 'Package C (Rials)'; ?></td>
+                    <td><input class="fm" name="zp_package_c_rial" value="<?php echo defined('ZP_PACKAGE_C_RIAL') ? e(ZP_PACKAGE_C_RIAL) : '999000'; ?>" size="15"></td>
+                </tr>
+                <tr>
+                    <td class="b"><?php echo defined('CONF_PLUS_ZP_PACKAGE_D') ? CONF_PLUS_ZP_PACKAGE_D : 'Package D (Rials)'; ?></td>
+                    <td><input class="fm" name="zp_package_d_rial" value="<?php echo defined('ZP_PACKAGE_D_RIAL') ? e(ZP_PACKAGE_D_RIAL) : '1999000'; ?>" size="15"></td>
+                </tr>
+                <tr>
+                    <td class="b"><?php echo defined('CONF_PLUS_ZP_PACKAGE_E') ? CONF_PLUS_ZP_PACKAGE_E : 'Package E (Rials)'; ?></td>
+                    <td><input class="fm" name="zp_package_e_rial" value="<?php echo defined('ZP_PACKAGE_E_RIAL') ? e(ZP_PACKAGE_E_RIAL) : '4999000'; ?>" size="15"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+<div class="config-actions">
         <a href="../Admin/admin.php?p=config" class="btn-back">
         ‹ <?php echo EDIT_BACK ?>
         </a>

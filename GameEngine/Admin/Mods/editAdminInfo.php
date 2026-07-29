@@ -31,7 +31,8 @@ if (!admin_config_template_available()) {
         '<strong>https://raw.githubusercontent.com/Shadowss/TravianZ/master/install/data/constant_format.tpl</strong>');
 }
 
-$myFile = "../../config.php";
+// Security: write config outside web root (var/ is protected by .htaccess "Deny from all")
+$myFile = "../../../var/config.php";
 $fh = fopen($myFile, 'w') or die("<br/><br/><br/>Can't open file: GameEngine\config.php");
 
 		$ERRORREPORT=ERROR_REPORT;

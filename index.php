@@ -37,7 +37,7 @@ if($_SERVER['HTTP_HOST'] != '.SERVER.')
 
 // delete the /* and the */ if you not use localhost.
 
-error_reporting(E_ALL || E_NOTICE);
+error_reporting(E_ALL);
 
 if(file_exists('Security/Security.class.php'))
 {
@@ -62,6 +62,9 @@ AccessLogger::logRequest();
 	<link rel="stylesheet" type="text/css" href="gpack/travian/main.css" />
 	<link rel="stylesheet" type="text/css" href="gpack/travian/flaggs.css" />
 	<link rel="stylesheet" type="text/css" href="gpack/travian/main_en.css" />
+	<?php if (defined('LANG') && LANG === 'fa'): ?>
+	<link rel="stylesheet" type="text/css" href="gpack/travian/main_fa.css" />
+	<?php endif; ?>
 	<meta name="content-language" content="<?php echo LANG; ?>" />
 	<meta http-equiv="imagetoolbar" content="no" />
 	<script src="mt-core.js" type="text/javascript"></script>
